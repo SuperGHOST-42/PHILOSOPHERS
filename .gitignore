@@ -1,2 +1,7 @@
 *.o
-.vscode
+
+# VSCode
+.vscode/
+
+# MacOS junk
+.DS_Store
