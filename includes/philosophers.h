@@ -6,7 +6,7 @@
 /*   By: arpereir <arpereir@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 02:45:12 by arpereir          #+#    #+#             */
-/*   Updated: 2026/03/12 17:40:44 by arpereir         ###   ########.fr       */
+/*   Updated: 2026/03/12 20:26:02 by arpereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ typedef struct s_data
 	int					must_eat_count;
 	int					someone_died;
 	long				start_time;
+	pthread_mutex_t		dead_lock;
+	pthread_mutex_t		meal_lock;
 	pthread_mutex_t		*forks;
 	pthread_mutex_t		print;
 }	t_data;
@@ -54,13 +56,15 @@ void	free_all(t_philo *philo);
 long	get_time_in_ms(void);
 
 //prints
-void	print_data(t_data *data);
-void	print_philo(t_philo *philos, int n);
 void	print_status(t_philo *philo, char *msg);
 
 //actions
 void	eat(t_philo *philo);
 void	philo_sleep(t_philo *philo);
 void	think(t_philo *philo);
+
+//monitor
+void	monitor(t_philo *philo);
+int		is_dead(t_philo *philo);
 
 #endif

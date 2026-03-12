@@ -6,7 +6,7 @@
 /*   By: arpereir <arpereir@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 02:45:09 by arpereir          #+#    #+#             */
-/*   Updated: 2026/03/12 18:00:37 by arpereir         ###   ########.fr       */
+/*   Updated: 2026/03/12 20:17:43 by arpereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	init_mutexes(t_data *data)
 		i++;
 	}
 	pthread_mutex_init(&data->print, NULL);
+	pthread_mutex_init(&data->dead_lock, NULL);
+	pthread_mutex_init(&data->meal_lock, NULL);
 }
 
 void	init_data(t_data *data, int argc, char **argv)

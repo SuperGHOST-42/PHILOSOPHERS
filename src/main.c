@@ -6,14 +6,13 @@
 /*   By: arpereir <arpereir@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 02:45:04 by arpereir          #+#    #+#             */
-/*   Updated: 2026/03/12 17:51:47 by arpereir         ###   ########.fr       */
+/*   Updated: 2026/03/12 21:40:59 by arpereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-
-void	*routine(void *arg)
+static void	*routine(void *arg)
 {
 	t_philo	*philo;
 
@@ -21,11 +20,11 @@ void	*routine(void *arg)
 	if (philo->data->nbr_philo == 1)
 	{
 		pthread_mutex_lock(philo->left_fork);
-		printf("philo %i has taken a fork\n", philo->id);
+		print_status(philo, "has taken a fork");
 		usleep(philo->data->time_to_die * 1000);
 		pthread_mutex_unlock(philo->left_fork);
 	}
-	while (1)
+	while (!is_dead(philo))
 	{
 		eat(philo);
 		philo_sleep(philo);
@@ -34,7 +33,7 @@ void	*routine(void *arg)
 	return (NULL);
 }
     
-void	run_threads(t_philo *philo)
+static void	create_and_join_threads(t_philo *philo)
 {
 	int	i;
 
@@ -44,6 +43,7 @@ void	run_threads(t_philo *philo)
 		pthread_create(&philo[i].thread, NULL, routine, &philo[i]);
 		i++;
 	}
+	monitor(philo);
 	i = 0;
 	while (i < philo->data->nbr_philo)
 	{
@@ -57,6 +57,8 @@ void	run_threads(t_philo *philo)
 		i++;
 	}
 	pthread_mutex_destroy(&philo->data->print);
+	pthread_mutex_destroy(&philo->data->dead_lock);
+	pthread_mutex_destroy(&philo->data->meal_lock);
 }
 
 int	main(int argc, char **argv)
@@ -69,12 +71,13 @@ int	main(int argc, char **argv)
 	data = malloc(sizeof(t_data));
 	if (!data)
 		return (1);
+	ft_bzero(data, sizeof(t_data));
 	init_data(data, argc, argv);
 	philo = malloc(sizeof(t_philo) * data->nbr_philo);
 	if (!philo)
 		return (free(data->forks), free(data), 1);
 	init_philo(philo, data);
-	run_threads(philo);
+	create_and_join_threads(philo);
 	free_all(philo);
 	return (0);
 }
