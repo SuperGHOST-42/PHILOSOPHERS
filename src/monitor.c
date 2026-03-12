@@ -6,7 +6,7 @@
 /*   By: arpereir <arpereir@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 20:13:25 by arpereir          #+#    #+#             */
-/*   Updated: 2026/03/12 21:36:24 by arpereir         ###   ########.fr       */
+/*   Updated: 2026/03/12 21:55:06 by arpereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ void	monitor(t_philo *philo)
 			pthread_mutex_unlock(&philo->data->meal_lock);
 			if (time_since_meal > philo[0].data->time_to_die)
 			{
-				print_status(philo, "died");
 				set_dead(philo);
+				print_status(philo, "died");
 				return ;
 			}
 			i++;
