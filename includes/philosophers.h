@@ -6,7 +6,7 @@
 /*   By: arpereir <arpereir@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 02:45:12 by arpereir          #+#    #+#             */
-/*   Updated: 2026/03/12 02:48:02 by arpereir         ###   ########.fr       */
+/*   Updated: 2026/03/12 02:59:33 by arpereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ typedef struct s_philo
 	int				id;
 	int				meals_eaten;
 	long			last_meal;
+	pthread_t	g	thread;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
-	pthread_t		thread;
 	t_data			*data;
 }	t_philo;
 
