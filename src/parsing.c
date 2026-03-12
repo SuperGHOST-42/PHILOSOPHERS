@@ -6,13 +6,13 @@
 /*   By: arpereir <arpereir@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 02:45:09 by arpereir          #+#    #+#             */
-/*   Updated: 2026/03/12 02:46:51 by arpereir         ###   ########.fr       */
+/*   Updated: 2026/03/12 03:16:04 by arpereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-void	innit_mutexes(t_data *data)
+void	init_mutexes(t_data *data)
 {
 	int	i;
 
@@ -31,7 +31,7 @@ void	innit_mutexes(t_data *data)
 	pthread_mutex_init(&data->print, NULL);
 }
 
-void	innit_data(t_data *data, int argc, char **argv)
+void	init_data(t_data *data, int argc, char **argv)
 {
 	data->nbr_philo = ft_atoi(argv[1]);
 	data->time_to_die = ft_atol(argv[2]);
@@ -40,10 +40,10 @@ void	innit_data(t_data *data, int argc, char **argv)
 	data->must_eat_count = -1;
 	if (argc == 6)
 		data->must_eat_count = ft_atoi(argv[5]);
-	innit_mutexes(data);
+	init_mutexes(data);
 }
 
-void	innit_philo(t_philo *philo, t_data *data)
+void	init_philo(t_philo *philo, t_data *data)
 {
 	int	i;
 

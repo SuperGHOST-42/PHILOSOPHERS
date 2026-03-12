@@ -6,7 +6,7 @@
 /*   By: arpereir <arpereir@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 02:45:04 by arpereir          #+#    #+#             */
-/*   Updated: 2026/03/12 02:53:21 by arpereir         ###   ########.fr       */
+/*   Updated: 2026/03/12 03:15:54 by arpereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ void	free_all(t_philo *philo)
 
 void	*routine(void *arg)
 {
-	t_philo	*philos;
+	t_philo	*philo;
 
-	philos = (t_philo *)arg;
-	pthread_mutex_lock(philos->data->forks);
-	printf("philo %i has started\n", philos->id);
-	pthread_mutex_unlock(philos->data->forks);
+	philo = (t_philo *)arg;
+	printf("philo %i has started\n", philo->id);
+	printf("left fork = %p\n", (void*)philo->left_fork);
+	printf("right fork = %p\n\n", (void*)philo->right_fork);
 	return (NULL);
 }
 
@@ -58,11 +58,11 @@ int	main(int argc, char **argv)
 	data = malloc(sizeof(t_data));
 	if (!data)
 		return (1);
-	innit_data(data, argc, argv);
+	init_data(data, argc, argv);
 	philo = malloc(sizeof(t_philo) * data->nbr_philo);
 	if (!philo)
 		return (free(data->forks), free(data), 1);
-	innit_philo(philo, data);
+	init_philo(philo, data);
 	run_threads(philo);
 	free_all(philo);
 	return (0);
