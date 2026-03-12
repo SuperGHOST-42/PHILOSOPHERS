@@ -6,7 +6,7 @@
 /*   By: arpereir <arpereir@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 02:45:14 by arpereir          #+#    #+#             */
-/*   Updated: 2026/03/12 02:48:41 by arpereir         ###   ########.fr       */
+/*   Updated: 2026/03/12 15:25:15 by arpereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,35 @@ void	print_philo(t_philo *philos, int n)
 		printf("--------------------\n");
 		i++;
 	}
+}
+void	*routine2(void *arg)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)arg;
+	
+	pthread_mutex_lock(philo->left_fork);
+	pthread_mutex_lock(philo->right_fork);
+
+	printf("philo %i has started\n", philo->id);
+	printf("left fork = %p\n", (void*)philo->left_fork);
+	printf("right fork = %p\n\n", (void*)philo->right_fork);
+
+	pthread_mutex_unlock(philo->left_fork);
+	pthread_mutex_unlock(philo->right_fork);
+	return (NULL);
+}
+
+void	free_all(t_philo *philo)
+{
+	free(philo->data->forks);
+	free(philo->data);
+	free(philo);
+}
+
+void	print_msg(t_philo *philo, char *msg)
+{
+	pthread_mutex_lock(&philo->data->print);
+	printf("%i %i %s", 300, philo->id, msg);
+	pthread_mutex_unlock(&philo->data->print);
 }

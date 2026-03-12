@@ -7,7 +7,8 @@ LIBFT = $(LIBFT_DIR)/libft.a
 
 SRCS = src/main.c \
 	src/parsing.c \
-	src/utils.c
+	src/utils.c \
+	src/actions.c
 
 OBJDIR = obj
 OBJS = $(patsubst src/%.c,$(OBJDIR)/%.o,$(SRCS))

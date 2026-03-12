@@ -6,7 +6,7 @@
 /*   By: arpereir <arpereir@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 02:45:12 by arpereir          #+#    #+#             */
-/*   Updated: 2026/03/12 03:16:10 by arpereir         ###   ########.fr       */
+/*   Updated: 2026/03/12 15:16:55 by arpereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,16 @@ long	ft_atol(const char *str);
 void	init_data(t_data *data, int argc, char **argv);
 void	init_mutexes(t_data *data);
 void	init_philo(t_philo *philo, t_data *data);
+void	free_all(t_philo *philo);
 
 //prints
 void	print_data(t_data *data);
 void	print_philo(t_philo *philos, int n);
+void	print_msg(t_philo *philo, char *msg);
+
+//things
+void	eat(t_philo *philo);
+void	philo_sleep(t_philo *philo);
+void	think(t_philo *philo);
 
 #endif

@@ -6,30 +6,34 @@
 /*   By: arpereir <arpereir@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 02:45:04 by arpereir          #+#    #+#             */
-/*   Updated: 2026/03/12 03:15:54 by arpereir         ###   ########.fr       */
+/*   Updated: 2026/03/12 14:58:14 by arpereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-void	free_all(t_philo *philo)
-{
-	free(philo->data->forks);
-	free(philo->data);
-	free(philo);
-}
 
 void	*routine(void *arg)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	printf("philo %i has started\n", philo->id);
-	printf("left fork = %p\n", (void*)philo->left_fork);
-	printf("right fork = %p\n\n", (void*)philo->right_fork);
+	if (philo->data->nbr_philo == 1)
+	{
+		pthread_mutex_lock(philo->left_fork);
+		printf("philo %i has taken a fork\n", philo->id);
+		usleep(philo->data->time_to_die * 1000);
+		pthread_mutex_unlock(philo->left_fork);
+	}
+	while (1)
+	{
+		eat(philo);
+		philo_sleep(philo);
+		think(philo);
+	}
 	return (NULL);
 }
-
+    
 void	run_threads(t_philo *philo)
 {
 	int	i;
@@ -46,6 +50,13 @@ void	run_threads(t_philo *philo)
 		pthread_join(philo[i].thread, NULL);
 		i++;
 	}
+	i = 0;
+	while (i < philo->data->nbr_philo)
+	{
+		pthread_mutex_destroy(&philo->data->forks[i]);
+		i++;
+	}
+	pthread_mutex_destroy(&philo->data->print);
 }
 
 int	main(int argc, char **argv)
