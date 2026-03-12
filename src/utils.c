@@ -1,4 +1,16 @@
-# include "../includes/philosophers.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: arpereir <arpereir@student.42lisboa.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/12 02:45:14 by arpereir          #+#    #+#             */
+/*   Updated: 2026/03/12 02:48:41 by arpereir         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/philosophers.h"
 
 long	ft_atol(const char *str)
 {
@@ -25,10 +37,11 @@ long	ft_atol(const char *str)
 	}
 	return (sign * result);
 }
+
 void	print_data(t_data *data)
 {
 	printf("----- DATA -----\n");
-	printf("nbr_philos      : %d\n", data->nbr_philos);
+	printf("nbr_philos      : %d\n", data->nbr_philo);
 	printf("time_to_die     : %ld\n", data->time_to_die);
 	printf("time_to_eat     : %ld\n", data->time_to_eat);
 	printf("time_to_sleep   : %ld\n", data->time_to_sleep);
@@ -39,7 +52,8 @@ void	print_data(t_data *data)
 	printf("print mutex     : %p\n", (void *)&data->print);
 	printf("----------------\n");
 }
-void	print_philos(t_philo *philos, int n)
+
+void	print_philo(t_philo *philos, int n)
 {
 	int	i;
 

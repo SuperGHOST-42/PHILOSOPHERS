@@ -1,52 +1,69 @@
-# include "../includes/philosophers.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: arpereir <arpereir@student.42lisboa.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/12 02:45:04 by arpereir          #+#    #+#             */
+/*   Updated: 2026/03/12 02:53:21 by arpereir         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/philosophers.h"
+
+void	free_all(t_philo *philo)
+{
+	free(philo->data->forks);
+	free(philo->data);
+	free(philo);
+}
 
 void	*routine(void *arg)
 {
 	t_philo	*philos;
 
-	philos = (t_philo*)arg;
+	philos = (t_philo *)arg;
 	pthread_mutex_lock(philos->data->forks);
 	printf("philo %i has started\n", philos->id);
 	pthread_mutex_unlock(philos->data->forks);
 	return (NULL);
 }
 
-int		main(int argc, char **argv)
+void	run_threads(t_philo *philo)
+{
+	int	i;
+
+	i = 0;
+	while (i < philo->data->nbr_philo)
+	{
+		pthread_create(&philo[i].thread, NULL, routine, &philo[i]);
+		i++;
+	}
+	i = 0;
+	while (i < philo->data->nbr_philo)
+	{
+		pthread_join(philo[i].thread, NULL);
+		i++;
+	}
+}
+
+int	main(int argc, char **argv)
 {
 	t_data		*data;
-	t_philo		*philos;
-	int 		i, j;
+	t_philo		*philo;
 
 	if (argc != 5 && argc != 6)
 		return (printf("invalid number of arguments\n"), 1);
 	data = malloc(sizeof(t_data));
 	if (!data)
 		return (1);
-	init_data(data, argc, argv);
-	data->forks = malloc(sizeof(pthread_mutex_t) * data->nbr_philos);
-	if (!data->forks)
-		return (free(data), 1);
-	init_mutexes(data);
-	philos = malloc(sizeof(t_philo) * data->nbr_philos);
-	if (!philos)
+	innit_data(data, argc, argv);
+	philo = malloc(sizeof(t_philo) * data->nbr_philo);
+	if (!philo)
 		return (free(data->forks), free(data), 1);
-	init_philos(philos, data);
-
-	i = 0;
-	while (i < data->nbr_philos)
-	{
-		pthread_create(&philos[i].thread, NULL, routine, &philos[i]);
-		i++;
-	}
-	j = 0;
-	while (j < data->nbr_philos)
-	{
-		pthread_join(philos[j].thread, NULL);
-		j++;
-	}
-
-	free(philos);
-	free(data->forks);
-	free(data);
+	innit_philo(philo, data);
+	run_threads(philo);
+	free_all(philo);
 	return (0);
 }
