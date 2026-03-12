@@ -6,7 +6,7 @@
 /*   By: arpereir <arpereir@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 02:45:14 by arpereir          #+#    #+#             */
-/*   Updated: 2026/03/12 15:25:15 by arpereir         ###   ########.fr       */
+/*   Updated: 2026/03/12 17:55:19 by arpereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,22 @@ void	free_all(t_philo *philo)
 	free(philo);
 }
 
-void	print_msg(t_philo *philo, char *msg)
+void	print_status(t_philo *philo, char *msg)
 {
+	long	timestamp;
+
+	timestamp = get_time_in_ms() - philo->data->start_time;
 	pthread_mutex_lock(&philo->data->print);
-	printf("%i %i %s", 300, philo->id, msg);
+	printf("%ld %i %s\n", timestamp, philo->id, msg);
 	pthread_mutex_unlock(&philo->data->print);
+}
+
+long	get_time_in_ms(void)
+{
+	long			time_in_ms;
+	struct timeval	tv;
+	
+	gettimeofday(&tv, NULL);
+	time_in_ms = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+	return (time_in_ms);
 }

@@ -6,7 +6,7 @@
 /*   By: arpereir <arpereir@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 02:45:12 by arpereir          #+#    #+#             */
-/*   Updated: 2026/03/12 15:16:55 by arpereir         ###   ########.fr       */
+/*   Updated: 2026/03/12 17:40:44 by arpereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,20 @@ typedef struct s_philo
 	pthread_mutex_t	*right_fork;
 	t_data			*data;
 }	t_philo;
-
+//utils
 long	ft_atol(const char *str);
 void	init_data(t_data *data, int argc, char **argv);
 void	init_mutexes(t_data *data);
 void	init_philo(t_philo *philo, t_data *data);
 void	free_all(t_philo *philo);
+long	get_time_in_ms(void);
 
 //prints
 void	print_data(t_data *data);
 void	print_philo(t_philo *philos, int n);
-void	print_msg(t_philo *philo, char *msg);
+void	print_status(t_philo *philo, char *msg);
 
-//things
+//actions
 void	eat(t_philo *philo);
 void	philo_sleep(t_philo *philo);
 void	think(t_philo *philo);

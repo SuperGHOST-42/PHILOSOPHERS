@@ -6,7 +6,7 @@
 /*   By: arpereir <arpereir@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 14:48:54 by arpereir          #+#    #+#             */
-/*   Updated: 2026/03/12 15:22:55 by arpereir         ###   ########.fr       */
+/*   Updated: 2026/03/12 17:58:18 by arpereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,20 @@ void	eat(t_philo *philo)
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(philo->right_fork);
-		printf("philo %i has taken a right fork\n", philo->id);
+		print_status(philo, "taken a fork");
 		pthread_mutex_lock(philo->left_fork);
-		printf("philo %i has taken a left fork\n", philo->id);
+		print_status(philo, "taken a fork");
 	}
 	else
 	{
 		pthread_mutex_lock(philo->left_fork);
-		printf("philo %i has taken a left fork\n", philo->id);
+		print_status(philo, "taken a fork");
 		pthread_mutex_lock(philo->right_fork);
-		printf("philo %i has taken a right fork\n", philo->id);
+		print_status(philo, "taken a fork");
 	}
-	print_msg(philo, "is eating\n");
+	philo->last_meal = get_time_in_ms();
+	philo->meals_eaten++;
+	print_status(philo, "is eating");
 	usleep(philo->data->time_to_eat * 1000);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
@@ -36,11 +38,11 @@ void	eat(t_philo *philo)
 
 void	philo_sleep(t_philo *philo)
 {
-	print_msg(philo, "is sleeping\n");
+	print_status(philo, "is sleeping");
 	usleep(philo->data->time_to_sleep * 1000);
 }
 
 void	think(t_philo *philo)
 {
-	print_msg(philo, "is thinking\n");
+	print_status(philo, "is thinking");
 }
