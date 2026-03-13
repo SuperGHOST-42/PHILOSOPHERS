@@ -6,7 +6,7 @@
 /*   By: arpereir <arpereir@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 20:13:25 by arpereir          #+#    #+#             */
-/*   Updated: 2026/03/13 05:27:05 by arpereir         ###   ########.fr       */
+/*   Updated: 2026/03/13 09:06:11 by arpereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,40 +29,52 @@ static void	set_dead(t_philo *philo)
 	pthread_mutex_unlock(&philo->data->dead_lock);
 }
 
-void	check_meals_eaten(t_philo *philo, int *full)
+static int	check_meals_eaten(t_philo *philo, long *full)
 {
-	if (philo->data->must_eat_count != -1)
+	if (philo->data->must_eat_count == -1)
+		return (0);
+	if (philo->meals_eaten >= philo->data->must_eat_count)
+		(*full)++;
+	if (*full == philo->data->nbr_philo)
+		return (1);
+	return (0);
+}
+
+static int	check_philo_state(t_philo *philo, long *full)
+{
+	long	time_since_meal;
+
+	pthread_mutex_lock(&philo->data->meal_lock);
+	if (check_meals_eaten(philo, full) == 1)
 	{
-		if (philo->meals_eaten >= philo->data->must_eat_count)
-			*full += 1;
-		if (*full == philo->data->nbr_philo)
-			set_dead(philo);
+		pthread_mutex_unlock(&philo->data->meal_lock);
+		set_dead(philo);
+		return (1);
 	}
+	time_since_meal = get_time_in_ms() - philo->last_meal;
+	pthread_mutex_unlock(&philo->data->meal_lock);
+	if (time_since_meal >= philo->data->time_to_die)
+	{
+		set_dead(philo);
+		print_status(philo, "died");
+		return (1);
+	}
+	return (0);
 }
 
 void	monitor(t_philo *philo)
 {
 	int		i;
-	int		full;
-	long	time_since_meal;
+	long	full;
 
-	i = 0;
-	while (!philo[0].data->someone_died )
+	while (!is_dead(philo))
 	{
 		i = 0;
 		full = 0;
-		while (i < philo[0].data->nbr_philo)
+		while (i < philo->data->nbr_philo)
 		{
-			pthread_mutex_lock(&philo->data->meal_lock);
-			check_meals_eaten(&philo[i], &full);
-			time_since_meal = get_time_in_ms() - philo[i].last_meal;
-			pthread_mutex_unlock(&philo->data->meal_lock);
-			if (time_since_meal > philo[0].data->time_to_die)
-			{
-				set_dead(philo);
-				print_status(&philo[i], "died");
+			if (check_philo_state(&philo[i], &full) == 1)
 				return ;
-			}
 			i++;
 		}
 		usleep(1000);

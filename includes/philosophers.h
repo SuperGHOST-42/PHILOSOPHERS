@@ -6,7 +6,7 @@
 /*   By: arpereir <arpereir@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 02:45:12 by arpereir          #+#    #+#             */
-/*   Updated: 2026/03/12 20:26:02 by arpereir         ###   ########.fr       */
+/*   Updated: 2026/03/13 08:56:40 by arpereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,15 @@
 # include <pthread.h>
 # include <unistd.h>
 # include <sys/time.h>
-# include <limits.h> 
-# include "libft/libft.h"
+# include <limits.h>
 
 typedef struct s_data
 {
-	int					nbr_philo;
+	long				nbr_philo;
 	long				time_to_die;
 	long				time_to_eat;
 	long				time_to_sleep;
-	int					must_eat_count;
+	long				must_eat_count;
 	int					someone_died;
 	long				start_time;
 	pthread_mutex_t		dead_lock;
@@ -48,12 +47,15 @@ typedef struct s_philo
 	t_data			*data;
 }	t_philo;
 //utils
+int		check_args(int argc, char **argv);
+int		ft_strncmp(char const *s1, char const *s2, size_t n);
 long	ft_atol(const char *str);
+long	get_time_in_ms(void);
 void	init_data(t_data *data, int argc, char **argv);
 void	init_mutexes(t_data *data);
 void	init_philo(t_philo *philo, t_data *data);
 void	free_all(t_philo *philo);
-long	get_time_in_ms(void);
+void	ft_bzero(void *s, size_t n);
 
 //prints
 void	print_status(t_philo *philo, char *msg);
@@ -64,7 +66,7 @@ void	philo_sleep(t_philo *philo);
 void	think(t_philo *philo);
 
 //monitor
-void	monitor(t_philo *philo);
 int		is_dead(t_philo *philo);
+void	monitor(t_philo *philo);
 
 #endif

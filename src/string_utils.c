@@ -1,22 +1,68 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   string_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arpereir <arpereir@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/16 19:23:29 by arpereir          #+#    #+#             */
-/*   Updated: 2025/04/24 15:41:21 by arpereir         ###   ########.fr       */
+/*   Created: 2026/03/13 09:01:06 by arpereir          #+#    #+#             */
+/*   Updated: 2026/03/13 09:05:51 by arpereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/philosophers.h"
 
-int	ft_atoi(const char *str)
+int	ft_isdigit(int c)
+{
+	return (c >= '0' && c <= '9');
+}
+
+int	check_args(int argc, char **argv)
 {
 	int	i;
-	int	sign;
-	int	result;
+	int	j;
+
+	i = 1;
+	while (i <= argc -1)
+	{
+		j = 0;
+		while (argv[i][j] != '\0')
+		{
+			if (!ft_isdigit(argv[i][j]) || argv[i][j] == '-')
+				return (1);
+			j++;
+		}
+		i++;
+	}
+	if (argv[1][0] == '0')
+	{
+		printf("Must be at least 1 Philosopher\n");
+		exit(0);
+	}
+	return (0);
+}
+
+int	ft_strncmp(char const *s1, char const *s2, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while ((*s1 || *s2) && i < n)
+	{
+		if (*s1 != *s2)
+			return ((unsigned char)*s1 - (unsigned char)*s2);
+		s1++;
+		s2++;
+		i++;
+	}
+	return (0);
+}
+
+long	ft_atol(const char *str)
+{
+	int		i;
+	long	sign;
+	long	result;
 
 	i = 0;
 	sign = 1;
