@@ -6,7 +6,7 @@
 /*   By: arpereir <arpereir@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 02:45:04 by arpereir          #+#    #+#             */
-/*   Updated: 2026/03/12 21:40:59 by arpereir         ###   ########.fr       */
+/*   Updated: 2026/03/13 05:27:35 by arpereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	main(int argc, char **argv)
 	data = malloc(sizeof(t_data));
 	if (!data)
 		return (1);
-	ft_bzero(data, sizeof(t_data));
+	ft_bzero(data, sizeof(t_data)); //todo: bzero
 	init_data(data, argc, argv);
 	philo = malloc(sizeof(t_philo) * data->nbr_philo);
 	if (!philo)
