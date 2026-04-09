@@ -6,7 +6,7 @@
 /*   By: arpereir <arpereir@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 02:45:12 by arpereir          #+#    #+#             */
-/*   Updated: 2026/03/13 08:56:40 by arpereir         ###   ########.fr       */
+/*   Updated: 2026/04/09 20:27:23 by arpereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	init_mutexes(t_data *data);
 void	init_philo(t_philo *philo, t_data *data);
 void	free_all(t_philo *philo);
 void	ft_bzero(void *s, size_t n);
+void	ft_usleep(time_t ms);
 
 //prints
 void	print_status(t_philo *philo, char *msg);

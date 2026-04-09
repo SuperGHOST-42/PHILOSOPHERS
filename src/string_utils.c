@@ -6,7 +6,7 @@
 /*   By: arpereir <arpereir@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 09:01:06 by arpereir          #+#    #+#             */
-/*   Updated: 2026/03/13 09:05:51 by arpereir         ###   ########.fr       */
+/*   Updated: 2026/04/09 20:02:06 by arpereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_isdigit(int c)
 {
-	return (c >= '0' && c <= '9');
+	return ((c >= '0' && c <= '9') || c == '+');
 }
 
 int	check_args(int argc, char **argv)
@@ -33,11 +33,6 @@ int	check_args(int argc, char **argv)
 			j++;
 		}
 		i++;
-	}
-	if (argv[1][0] == '0')
-	{
-		printf("Must be at least 1 Philosopher\n");
-		exit(0);
 	}
 	return (0);
 }

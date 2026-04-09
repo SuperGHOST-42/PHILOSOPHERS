@@ -6,7 +6,7 @@
 /*   By: arpereir <arpereir@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 02:45:14 by arpereir          #+#    #+#             */
-/*   Updated: 2026/03/13 09:06:23 by arpereir         ###   ########.fr       */
+/*   Updated: 2026/04/09 19:50:04 by arpereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,13 @@ void	ft_bzero(void *s, size_t n)
 	ptr = (unsigned char *)s;
 	while (n--)
 		*ptr++ = 0;
+}
+
+void	ft_usleep(time_t ms)
+{
+	long	wake_up;
+
+	wake_up = get_time_in_ms() + ms;
+	while (get_time_in_ms() < wake_up)
+		usleep(100);
 }

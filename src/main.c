@@ -6,7 +6,7 @@
 /*   By: arpereir <arpereir@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 02:45:04 by arpereir          #+#    #+#             */
-/*   Updated: 2026/03/13 09:06:52 by arpereir         ###   ########.fr       */
+/*   Updated: 2026/04/09 20:42:11 by arpereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,12 @@ static void	*routine(void *arg)
 	{
 		pthread_mutex_lock(philo->left_fork);
 		print_status(philo, "has taken a fork");
-		usleep(philo->data->time_to_die * 1000);
+		ft_usleep(philo->data->time_to_die);
 		pthread_mutex_unlock(philo->left_fork);
 		return (NULL);
 	}
+	//if (philo->id % 2 == 0)
+	//	ft_usleep(1);
 	while (!is_dead(philo))
 	{
 		eat(philo);
